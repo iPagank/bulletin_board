@@ -1,0 +1,26 @@
+﻿@model bulletin_board.ViewModels.LoginViewModel
+
+<h2>Вход</h2>
+<div class="alert alert-danger" role="alert" asp-validation-summary="ModelOnly"></div>
+
+<form method="post" asp-action="Login" asp-controller="Account" asp-route-return-url="@Model.BackUrl">
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input type="text" class="form-control" asp-for="Email">
+        <span asp-validation-for="Email" class="form-text text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input type="password" class="form-control" asp-for="Password">
+        <span asp-validation-for="Password" class="form-text text-danger"></span>
+    </div>
+
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" asp-for="RememberMe">
+        <label class="form-check-label" asp-for="RememberMe"></label>
+        
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

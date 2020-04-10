@@ -8,7 +8,6 @@ namespace bulletin_board.Models
     public class User : IdentityUser
     {
         public string Name { get; set; }
-        public string Phone { get; set; }
         public string City { get; set; }
         public List<Product> Products { get; set; }
         public User()
