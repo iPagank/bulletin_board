@@ -1,0 +1,39 @@
+﻿@model bulletin_board.ViewModels.UserCabinet.CreateOrderViewModel
+
+    <a asp-controller="UserCabinet" asp-action="Index" class="btn btn-primary" >Назад</a>
+ <h2>Создание Пользователя</h2>
+ <div class="alert alert-danger" role="alert" asp-validation-summary="ModelOnly"></div>
+ <form method="post" asp-action="Create" asp-controller="UserCabinet" enctype="multipart/form-data"> 
+
+     <div class="form-group">
+         <input class="form-control" type="text" name="Name" placeholder="Название заказа">
+         <span asp-validation-for="Name" class="text-danger"></span>
+     </div>
+     <div class="form-group">
+         <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Описание" name="Description" rows="3"></textarea>
+         <span asp-validation-for="Description" class="text-danger"></span>
+     </div>
+     <div class="form-group">
+         <input class="form-control" type="number" name="Price" placeholder="Цена">
+         <span asp-validation-for="Price" class="text-danger"></span>
+     </div>
+
+     <div class="form-group">
+         <select class="custom-select" name="State" id="inputGroupSelect01">
+             <option selected>Выберите...</option>
+             <option value="true">Новое</option>
+             <option value="false">Б/y</option>
+         </select>
+         <span asp-validation-for="State" class="text-danger"></span>
+     </div>
+
+     <div class="form-group">
+         <label for="exampleFormControlFile1">Загрузите свое фото</label>
+         <input type="file" name="Path" class="form-control-file" id="exampleFormControlFile1">
+         <span asp-validation-for="Path" class="text-danger"></span>
+     </div>
+
+     <div class="form-group">
+         <button class="btn btn-primary">Сохранить</button>
+     </div>
+ </form>

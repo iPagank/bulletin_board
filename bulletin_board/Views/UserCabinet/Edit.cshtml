@@ -1,0 +1,56 @@
+﻿@model bulletin_board.ViewModels.UserCabinet.EditOrderViewModel
+
+<a asp-controller="UserCabinet" asp-action="Index" class="text-primary m-2">Назад</a>
+<div class="alert alert-danger" role="alert" asp-validation-summary="ModelOnly"></div>
+<form method="post" asp-action="Edit" asp-controller="UserCabinet" asp-route-id="@Model.Id" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="Name">Название товара</label>
+        <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name">
+        <span class="text-danger" asp-validation-for="Name"></span>
+    </div>
+    <div class="form-group">
+        <label for="Description">Описание товара</label>
+        <textarea class="form-control" rows="3" id="Description" name="Description">@Model.Description</textarea>
+        <span class="text-danger" asp-validation-for="Description"></span>
+    </div>
+
+    <label for="Cost">Цена</label>
+    <div class="mb-3 input-group">    
+        <input type="number" class="form-control" id="Cost" name="Price" value="@Model.Price"  aria-describedby="currency">
+        <div class="input-group-append">
+            <span class="input-group-text" id="currency"> $ </span>
+        </div>
+        <span class="text-danger" asp-validation-for="Price"></span>
+    </div>
+    <div class="form-group">
+        <label for="ControlSelect">Состояние товара</label>
+
+        @{
+            if (Model.State == true)
+            {
+                <select class="form-control" id="ControlSelect" name="State">
+                    <option selected value="true">Новое</option>
+                    <option value="false">Б/У</option>
+                </select>
+            }
+            else
+            {
+                <select class="form-control" id="ControlSelect" name="State">
+                    <option value="true">Новое</option>
+                    <option selected value="false">Б/У</option>
+                </select>
+            }
+        }
+        <span class="text-danger" asp-validation-for="State"></span>
+    </div>
+
+        <label for="ControlFile">Фотография товара</label>
+         <div class="form-group">            
+             <img src="@Url.Content(Model.Absolute_path)" class="rounded float-left img-thumbnail">
+            <input type="file" class="form-control-file mt-3" id="FormControlFile" name="Path">
+        </div>
+        
+    <button class="btn btn-primary">Сохранить</button>
+</form>
+
+

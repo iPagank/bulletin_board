@@ -1,0 +1,23 @@
+﻿@model bulletin_board.ViewModels.UserCabinet.AccountSettingViewModel
+
+    <div class="row m-5">
+        <div class="col">
+            <a href="~/UserCabinet/Create" type="button" class="btn btn-primary btn-lg m-3">Добавить Заказ</a>
+            <nav>
+                <div class="nav nav-tabs justify-content-around" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Управления заказами</a>
+                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Настройки Профиля</a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <!-- Order Card -->
+                    @await Html.PartialAsync("_OrderList")
+                    <!-- Order Card -->
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    @await Html.PartialAsync("_Profile")
+                </div>
+            </div>
+        </div>
+    </div>

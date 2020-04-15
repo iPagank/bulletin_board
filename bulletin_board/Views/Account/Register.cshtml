@@ -3,7 +3,7 @@
 <h2>Регистрация</h2>
 <div class="alert alert-danger" role="alert" asp-validation-summary="ModelOnly"></div>
 
-<form method="post" asp-controller="Account" asp-action="Register">
+<form method="post" asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Model.BackUrl">
 
     <div class="form-group">
         <label asp-for="Email">Email address</label>

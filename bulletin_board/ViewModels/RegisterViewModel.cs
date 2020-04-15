@@ -36,6 +36,8 @@ namespace bulletin_board.ViewModels
         [DataType(DataType.Password)]
         [Display(Name = "Подтверждения пароля")]
         public string ConfirmPass { get; set; }
+        
+        public string BackUrl { get; set; }
     }
 
 }

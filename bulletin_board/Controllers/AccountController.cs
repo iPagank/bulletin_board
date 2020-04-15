@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using bulletin_board.Models;
 using bulletin_board.ViewModels;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 
 namespace bulletin_board.Controllers
@@ -23,15 +24,15 @@ namespace bulletin_board.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public IActionResult Register(string returnUrl = null )
         {
-            return View();
+            return View(new RegisterViewModel { BackUrl = returnUrl });
         }
 
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
-            return View(new LoginViewModel { BackUrl = returnUrl});
+            return View(new LoginViewModel { BackUrl = returnUrl });
         }
 
         [HttpPost]
@@ -46,6 +47,10 @@ namespace bulletin_board.Controllers
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, false);
+                    if (!string.IsNullOrEmpty(model.BackUrl) && Url.IsLocalUrl(model.BackUrl))
+                    {
+                        return Redirect(model.BackUrl);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -59,7 +64,7 @@ namespace bulletin_board.Controllers
 
             return View(model);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -70,11 +75,15 @@ namespace bulletin_board.Controllers
 
                 if (result.Succeeded)
                 {
-                       return RedirectToAction("Index", "Home");
+                    if (!string.IsNullOrEmpty(model.BackUrl) && Url.IsLocalUrl(model.BackUrl))
+                    {
+                       return Redirect(model.BackUrl);
+                    }
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                        ModelState.AddModelError(string.Empty, "Неправильный логин или пароль"); 
+                    ModelState.AddModelError(string.Empty, "Неправильный логин или пароль");
                 }
             }
             else
@@ -86,7 +95,7 @@ namespace bulletin_board.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-         public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
