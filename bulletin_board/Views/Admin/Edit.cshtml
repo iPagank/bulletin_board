@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model bulletin_board.ViewModels.Admin.GhangeRoleViewModel
+<h2>Изменение ролей пользователя @Model.UserEmail</h2>
+
+<form method="post" asp-action="Edit" asp-controller="Admin">
+    <input type="hidden" name="userId" value="@Model.UserId" />
+    <div class="form-group">
+        @foreach (var item in Model.AllRoles)
+        {
+            <input type="checkbox" name="roles" value="@item.Name" 
+                  @(Model.UserRoles.Contains(item.Name) ? "checked=\"checked\"" : "") />@item.Name <br />
+
+        }
+    </div>
+    <button class="btn btn-primary">Сохранить</button>
+</form>

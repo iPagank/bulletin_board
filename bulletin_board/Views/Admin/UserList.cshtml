@@ -1,0 +1,16 @@
+﻿@model IEnumerable<bulletin_board.Models.User>
+
+<a asp-action="Index" asp-controller="Admin">Назад</a>
+<h2>Список пользователей</h2>
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Email</td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="Edit" asp-controller="Admin" asp-route-userid="@item.Id">Права пользователя</a>
+                <a class="btn btn-sm btn-danger" asp-action="DeleteUser" asp-controller="Admin" asp-route-userid="@item.Id">Удалить</a>
+            </td>
+        </tr>
+    }
+</table>

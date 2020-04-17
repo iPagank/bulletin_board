@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+<a asp-action="Index" asp-controller="Admin">Назад</a>
+<h2>Список ролей</h2>
+
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>
+                <form method="post" asp-action="Delete" asp-controller="Admin" asp-route-id="@item.Id">
+                    <button class="btn btn-sm btn-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<a asp-action="Create" asp-controller="Admin">Добавить</a>
