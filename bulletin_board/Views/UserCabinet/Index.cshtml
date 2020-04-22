@@ -16,7 +16,27 @@
                     <!-- Order Card -->
                 </div>
                 <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                    @await Html.PartialAsync("_Profile")
+                    <div class="row">
+                        <div class="col">
+                            <!-- Acc Setting -->
+                            <form method="post" asp-action="EditUser" asp-controller="UserCabinet">
+                                <div asp-validation-summary="ModelOnly"></div>
+                                <label for="">Имя</label>
+                                <input class="form-control mb-3 mt-3" type="text" placeholder="Имя" name="Name" value="@Model.Name">
+                                <span class="text-danger" asp-validation-for="Name"></span>
+
+                                <label for="">Email</label>
+                                <input class="form-control mb-3" type="email" placeholder="Email" name="Email" value="@Model.Email">
+                                <span class="text-danger" asp-validation-for="Email"></span>
+
+                                <label for="">Телефон</label>
+                                <input class="form-control mb-3" type="tel" placeholder="Телефон" name="Phone" value="@Model.Phone">
+                                <span class="text-danger" asp-validation-for="Phone"></span>
+                                <br>
+                                <button type="submit" class="btn btn-primary mt-2">Сохранить</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

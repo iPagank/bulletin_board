@@ -33,11 +33,19 @@ namespace bulletin_board.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = await userManager.GetUserAsync(User);
 
-            var orders = db.Products.Where(n => n.User.Id == user.Id).OrderByDescending(p => p.Id).ToList();
+            var user = await userManager.GetUserAsync(User);
+            
+            if (user != null)
+            {
+                var orders = db.Products.Where(n => n.User.Id == user.Id).OrderByDescending(p => p.Id).ToList();
             ViewBag.orders = orders;
 
+            
+                AccountSettingViewModel model = new AccountSettingViewModel { Email = user.Email, Name = user.Name, Phone = user.PhoneNumber };
+                return View("Index", model);
+            }
+            
             return  View();
 
         }
@@ -188,7 +196,34 @@ namespace bulletin_board.Controllers
             }
             return NotFound();
         }
-        
 
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(AccountSettingViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                User user = await userManager.GetUserAsync(User);
+                if (user != null)
+                {
+                    user.Email = model.Email;
+                    user.Name = model.Name;
+                    user.PhoneNumber = model.Phone;
+
+                    var res = await userManager.UpdateAsync(user);
+                    if (res.Succeeded)
+                    {
+                        return RedirectToAction("Index", "UserCabinet");
+                    }
+                    ModelState.AddModelError("", "UpdateError");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "ModelError");
+            }
+            return NotFound();
+        }
     }
 }
