@@ -1,0 +1,41 @@
+﻿@model bulletin_board.Models.User
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-4">
+            <a class="text-primary mb-4" asp-action="Index" asp-controller="Home">Назад</a>
+            <img src="@Url.Content(Model.Path)" class="card-img-top" alt="UserPhoto">
+        </div>
+        <div class="col-8">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Имя продавца: @Model.Name</li>
+                <li class="list-group-item">Email Адрес: <a href="mailto:@Model.Email">@Model.Email</a></li>
+                <li class="list-group-item">Номер телефона: <a href="tel:@Model.PhoneNumber">@Model.PhoneNumber</a></li>
+                <li class="list-group-item">Город: @Model.City</li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Активные Товары:</h1>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var item in Model.Products)
+        {
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <img src="@Url.Content(item.Path)" class="card-img-top" alt="img">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text">@item.Description</p>
+                    <a asp-controller="Home" asp-action="Product" asp-route-id="@item.Id" class="btn btn-primary">Смотреть</a>
+                </div>
+            </div>
+        </div>
+        }
+        
+       
+    </div>
+</div>

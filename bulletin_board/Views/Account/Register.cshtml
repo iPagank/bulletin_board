@@ -3,7 +3,7 @@
 <h2>Регистрация</h2>
 <div class="alert alert-danger" role="alert" asp-validation-summary="ModelOnly"></div>
 
-<form method="post" asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Model.BackUrl">
+<form method="post" asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Model.BackUrl" enctype="multipart/form-data">
 
     <div class="form-group">
         <label asp-for="Email">Email address</label>
@@ -39,6 +39,11 @@
         <label asp-for="ConfirmPass"></label>
         <input type="password" class="form-control" asp-for="ConfirmPass">
         <span asp-validation-for="ConfirmPass" class="form-text text-danger"></span>
+    </div>
+
+    <label for="ControlFile">Фотография</label>
+    <div class="form-group">
+        <input type="file" class="form-control-file mt-3" id="FormControlFile" name="Path">
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>

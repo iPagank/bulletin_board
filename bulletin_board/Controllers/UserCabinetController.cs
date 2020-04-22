@@ -53,20 +53,19 @@ namespace bulletin_board.Controllers
           if (ModelState.IsValid)
           {
                 var user = await userManager.GetUserAsync(User);
-                //дописать все пункты к модели
                 
                 if(user != null)
                 {
 
                     if(model.Path != null)
                     {
-                        string path = "/img/" + model.Path.FileName;
+                        string path = "/avatars/" + model.Path.FileName;
 
                         using(var fileStream = new FileStream(appEnvironment.WebRootPath + path, FileMode.Create))
                         {
                             await model.Path.CopyToAsync(fileStream);
                         }
-                        var product = new Product { Name = model.Name, Description = model.Description, Price = model.Price, State = model.State,Path = path, User = user };
+                        var product = new Product { Name = model.Name, Description = model.Description, Price = model.Price, State = model.State, Path = path, User = user };
                         
                         db.Products.Add(product);
                         await db.SaveChangesAsync();

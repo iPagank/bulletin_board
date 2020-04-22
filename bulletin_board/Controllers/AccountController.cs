@@ -8,6 +8,8 @@ using bulletin_board.Models;
 using bulletin_board.ViewModels;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace bulletin_board.Controllers
 {
@@ -16,11 +18,14 @@ namespace bulletin_board.Controllers
 
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
+        private readonly IWebHostEnvironment appEnvironment;
 
-        public AccountController(UserManager<User> user, SignInManager<User> signIn)
+        public AccountController(UserManager<User> user, SignInManager<User> signIn, IWebHostEnvironment hostEnvironment)
         {
             userManager = user;
             signInManager = signIn;
+            appEnvironment = hostEnvironment;
+            
         }
 
         [HttpGet]
@@ -40,24 +45,34 @@ namespace bulletin_board.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { UserName = model.Email, Email = model.Email, PhoneNumber = model.Phone, City = model.City };
-
-                var result = await userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
+                if(model.Path != null)
                 {
-                    await signInManager.SignInAsync(user, false);
-                    if (!string.IsNullOrEmpty(model.BackUrl) && Url.IsLocalUrl(model.BackUrl))
+                    string path = "/img/" + model.Path.FileName;
+
+                    using (var avatar = new FileStream(appEnvironment.WebRootPath + path, FileMode.Create))
                     {
-                        return Redirect(model.BackUrl);
+                        await model.Path.CopyToAsync(avatar);
                     }
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var item in result.Errors)
+
+                    User user = new User {Name = model.Name, UserName = model.Email, Email = model.Email, PhoneNumber = model.Phone, City = model.City, Path = path };
+
+                    var result = await userManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
                     {
-                        ModelState.AddModelError(string.Empty, item.Description);
+                        await signInManager.SignInAsync(user, false);
+                        if (!string.IsNullOrEmpty(model.BackUrl) && Url.IsLocalUrl(model.BackUrl))
+                        {
+                            return Redirect(model.BackUrl);
+                        }
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        foreach (var item in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, item.Description);
+                        }
                     }
                 }
             }

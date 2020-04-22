@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\avatars\" />
   </ItemGroup>
 
 

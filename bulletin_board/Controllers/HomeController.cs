@@ -7,33 +7,53 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using bulletin_board.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace bulletin_board.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        ApplicationContext db;
 
-        public HomeController(ILogger<HomeController> logger)
+        UserManager<User> manager;
+
+        public HomeController(ApplicationContext context, UserManager<User> _manager)
         {
-            _logger = logger;
-        }
-        
-        public IActionResult Index()
-        {
-            return View();
+            db = context;
+            manager = _manager;
         }
 
-        public IActionResult Privacy()
+       public IActionResult Index()
         {
-            return View();
+           return View(db.Products.ToList());
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Authorize]
+       public async Task<IActionResult> Product(int? id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if(id != null)
+            {
+                var result = await db.Products.Include(p=>p.User).FirstOrDefaultAsync(p => p.Id == id);
+
+                if(result != null)
+                {
+                    return View(result);
+                }
+            }
+            return NotFound();
+        }
+        [Authorize]
+        public async Task<IActionResult> Profile(string id)
+        {
+            if (!string.IsNullOrEmpty(id)) 
+            {
+                User user = await db.Users.Include(p => p.Products).FirstOrDefaultAsync(p => p.Id == id);
+                if(user != null)
+                {
+                    return View(user);
+                }
+            }
+            return NotFound();
         }
     }
 }

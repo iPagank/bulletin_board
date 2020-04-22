@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace bulletin_board.ViewModels
 {
@@ -38,6 +40,8 @@ namespace bulletin_board.ViewModels
         public string ConfirmPass { get; set; }
         
         public string BackUrl { get; set; }
+
+        public IFormFile Path { get; set; }
     }
 
 }

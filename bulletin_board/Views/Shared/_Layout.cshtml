@@ -16,8 +16,8 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -25,6 +25,40 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <ul class="navbar-nav ml-auto nav-flex-icons">
+                                <li class="nav-item avatar dropdown">
+                                    <a class="nav-link" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        <img src="http://0.gravatar.com/avatar/82c7ed4434237134184b5c0c88874768?s=68&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D68&r=G" class="rounded-circle z-depth-0"
+                                             alt="avatar image" height="35">
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+                                         aria-labelledby="navbarDropdownMenuLink-55">
+                                        <a class="dropdown-item" asp-action="Create" asp-controller="UserCabinet">Новый заказ</a>
+                                        <a class="dropdown-item" asp-action="Index" asp-controller="UserCabinet">Мои заказы</a>
+                                        <form method="post" asp-action="Logout" asp-controller="Account">
+                                            <button class="dropdown-item">Выйти</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link text-primary" asp-action="Login" asp-controller="Account">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-primary" asp-action="Register" asp-controller="Account">Register</a>
+                                </li>
+                            </ul>
+                        }
+                    }
+
                 </div>
             </div>
         </nav>
